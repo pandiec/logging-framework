@@ -1,0 +1,15 @@
+service: logging
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  role: arn:aws:iam::951674605641:role/myapp-logging-role
+  
+
+functions:
+  dispatchErrors:
+    handler: handler.dispatchErrors
+    events:
+      - sns: arn:aws:sns:us-east-1:951674605641:testing
