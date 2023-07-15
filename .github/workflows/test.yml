@@ -6,9 +6,20 @@ on:
 jobs:
   test:
     runs-on: self-hosted
+    strategy:
+      matrix:
+        node: [ 14, 16, 18 ]
     steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: npm install
-    - name: Run tests
-      run: npm test
+    - uses: actions/checkout@v3
+    - name: Run linting rules and tests
+      uses: actions/setup-node@v3
+      with:
+          node-version: ${{ matrix.node }}
+    - run: npm ci
+    - run: npm run lint
+    - run: npm run test
+ #   - name: Install dependencies
+ #
+ #     run: npm install
+ #   - name: Run tests
+#      run: npm test
