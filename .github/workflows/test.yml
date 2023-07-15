@@ -4,22 +4,20 @@ on:
     branches:
       - main
 jobs:
-  test:
+  build:
+    # The type of runner that the job will run on
     runs-on: self-hosted
     strategy:
       matrix:
         node: [ 14, 16, 18 ]
+
+    name: Node ${{ matrix.node }} sample
     steps:
-    - uses: actions/checkout@v3
-    - name: Run linting rules and tests
-      uses: actions/setup-node@v3
-      with:
+      - uses: actions/checkout@v3
+      - name: Run linting rules and tests
+        uses: actions/setup-node@v3
+        with:
           node-version: ${{ matrix.node }}
-    - run: npm ci
-    - run: npm run lint
-    - run: npm run test
- #   - name: Install dependencies
- #
- #     run: npm install
- #   - name: Run tests
-#      run: npm test
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
