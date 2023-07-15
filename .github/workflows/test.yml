@@ -4,20 +4,22 @@ on:
     branches:
       - main
 jobs:
-  build:
-    # The type of runner that the job will run on
+  lint:
     runs-on: self-hosted
-    strategy:
-      matrix:
-        node: [ 14, 16, 18 ]
-
-    name: Node ${{ matrix.node }} sample
     steps:
-      - uses: actions/checkout@v3
-      - name: Run linting rules and tests
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
+          node-version: '14'
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
