@@ -23,7 +23,7 @@ jobs:
       
    
     - name: SonarQube Scan
-      uses: kitabisa/sonarqube-action@master
+      uses: docker://sonarsource/sonar-scanner-cli:latest
       env:
          SONAR_TOKEN : ${{ secrets.SONAR_TOKEN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
